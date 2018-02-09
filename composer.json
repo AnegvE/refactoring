@@ -1,0 +1,13 @@
+{
+    "name": "anegve/anegve",
+    "description": "refactoring by SOLID and OOP",
+    "type": "project",
+    "authors": [
+        {
+            "name": "anegve",
+            "email": "mr.anegve@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
