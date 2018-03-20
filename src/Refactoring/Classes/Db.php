@@ -22,6 +22,6 @@ class Db
 
     public function write($content)
     {
-        return file_put_contents(__DIR__.'/../../'.$this->name, $content, FILE_APPEND);
+        return file_put_contents(__DIR__.'/../../../'.$this->name, $content, FILE_APPEND);
     }
 }
