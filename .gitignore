@@ -1,3 +1,7 @@
 # IntelliJ project files
 .idea
+
+# Composer
+/composer.lock
 /vendor/
+
