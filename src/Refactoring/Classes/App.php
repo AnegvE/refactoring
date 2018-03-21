@@ -5,32 +5,26 @@ namespace Refactoring\Classes;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7 as Guzzle;
 use Refactoring\Interfaces\AppInterface;
+use Refactoring\Interfaces\StorageInterface;
 
 /**
  * Class App
  *
  * @property array $config
- * @property Db $db
+ * @property StorageInterface $storage
  */
 class App implements AppInterface
 {
     public $config;
-    public $db;
+    public $storage;
 
-    /**
-     * App constructor.
-     * @param array $config
-     */
-    public function __construct($config)
+    public function __construct(array $config, StorageInterface $storage)
     {
         $this->config = $config;
-        $this->db = new Db($config['db']['baza'], $config['db']['login'], $config['db']['pass']);
+        $this->storage = $storage;
     }
 
-    /**
-     * @return bool
-     */
-    public function run()
+    public function run() : bool
     {
         $result_send = $this->actionSendEmail(3);
 
@@ -39,32 +33,20 @@ class App implements AppInterface
         return $result_send && $result_write;
     }
 
-    /**
-     * @param int $value
-     * @return bool
-     */
-    public function actionSendEmail($value)
+    public function actionSendEmail($value) : bool
     {
         return (new Sender())->send($value);
     }
 
-    /**
-     * @return bool
-     */
-    public function actionWriteToDb()
+    public function actionWriteToDb() : bool
     {
         $content = $this->getSiteContent($this->config['http']['url']);
-        $this->db->write($content);
+        $this->storage->set($content);
 
         return true;
     }
 
-
-    /**
-     * @param string $uri_string
-     * @return string
-     */
-    protected function getSiteContent($uri_string)
+    protected function getSiteContent(string $uri_string) : string
     {
         $client = new GuzzleClient();
         $uri = new Guzzle\Uri($uri_string);

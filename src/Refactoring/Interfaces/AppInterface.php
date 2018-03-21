@@ -2,20 +2,20 @@
 
 namespace Refactoring\Interfaces;
 
-
 interface AppInterface
 {
     /**
      * AppInterface constructor.
      *
      * @param array $config <array with settings for app>
+     * @param StorageInterface $db
      */
-    public function __construct($config);
+    public function __construct(array $config, StorageInterface $db);
 
     /**
      * Main method
      *
      * @return bool
      */
-    public function run();
+    public function run() : bool;
 }

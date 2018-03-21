@@ -1,8 +1,12 @@
 <?php
 
-/** @var Composer\Autoload\ClassLoader $loader */
-$loader = require __DIR__ . '/../vendor/autoload.php';
+define('DIR_WEB', __DIR__);
+define('DIR_APP', dirname(__DIR__));
 
-$config = parse_ini_file(__DIR__ . '/../config/main.ini', true);
+require DIR_APP . '/vendor/autoload.php';
 
-(new Refactoring\Classes\App($config))->run();
+$config = parse_ini_file(DIR_APP . '/config/main.ini', true);
+
+$storage = new Refactoring\Classes\Storage($config['db']);
+
+(new Refactoring\Classes\App($config, $storage))->run();
