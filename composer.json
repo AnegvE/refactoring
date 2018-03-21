@@ -24,5 +24,8 @@
         "guzzlehttp/psr7": "^1.4",
         "phpunit/phpunit": "^6.5",
         "roave/security-advisories": "dev-master"
+    },
+    "scripts": {
+        "test": "phpunit --colors=always"
     }
 }

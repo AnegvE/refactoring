@@ -21,4 +21,9 @@ interface StorageInterface
      * @return bool
      */
     public function set(string $content) : bool;
+
+    /**
+     * @return bool
+     */
+    public function clear() : bool;
 }
