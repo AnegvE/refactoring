@@ -1,5 +1,5 @@
 {
-    "name": "anegve/anegve",
+    "name": "anegve/refactoring",
     "description": "refactoring by SOLID and OOP",
     "type": "project",
     "authors": [
@@ -9,13 +9,20 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {
-        "guzzlehttp/guzzle": "^6.3",
-        "guzzlehttp/psr7": "^1.4"
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
     },
     "autoload": {
         "psr-4": {
             "Refactoring\\": "src/Refactoring/"
         }
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/psr7": "^1.4",
+        "phpunit/phpunit": "^6.5",
+        "roave/security-advisories": "dev-master"
     }
 }
