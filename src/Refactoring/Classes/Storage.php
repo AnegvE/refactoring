@@ -50,6 +50,6 @@ class Storage implements StorageInterface
 
     protected function getFilePath() : string
     {
-        return DIR_APP . '/' . $this->name;
+        return DIR_APP . DS . $this->name;
     }
 }

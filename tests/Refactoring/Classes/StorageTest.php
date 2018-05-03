@@ -5,54 +5,43 @@ use Refactoring\Classes\Storage;
 
 class StorageTest extends TestCase
 {
-    protected $storage_name = 'storage_test.db';
+    protected static $storage_name = 'storage_test.db';
 
-    public function testInitializationWithEmptyConfig()
+    public function initializationParamsProvider()
     {
-        $this->expectException(\InvalidArgumentException::class);
-
-        new Storage([]);
+        return [
+            [[]],
+            [['name' => '', 'user' => 'test', 'pass' => 'test']],
+            [['name' => static::$storage_name, 'user' => '', 'pass' => 'test']],
+            [['name' => static::$storage_name, 'user' => 'test', 'pass' => '']],
+        ];
     }
-    public function testInitializationWithEmptyName()
+
+
+    /**
+     * @dataProvider initializationParamsProvider
+     *
+     * @param array $conf
+     */
+    public function testInitializationWithEmptyConfig($conf)
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        new Storage([
-            'name' => '',
+        new Storage($conf);
+    }
+
+    protected function getStorage()
+    {
+        return new Storage([
+            'name' => static::$storage_name,
             'user' => 'test',
             'pass' => 'test',
-        ]);
-    }
-
-    public function testInitializationWithEmptyUser()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        new Storage([
-            'name' => $this->storage_name,
-            'user' => '',
-            'pass' => 'test',
-        ]);
-    }
-
-    public function testInitializationWithEmptyPass()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        new Storage([
-            'name' => $this->storage_name,
-            'user' => 'test',
-            'pass' => '',
         ]);
     }
 
     public function testClear()
     {
-        $storage = new Storage([
-            'name' => $this->storage_name,
-            'user' => 'test',
-            'pass' => 'test',
-        ]);
+        $storage = $this->getStorage();
 
         self::assertEquals(true, $storage->clear());
 
@@ -61,11 +50,7 @@ class StorageTest extends TestCase
 
     public function testSetAndGet()
     {
-        $storage = new Storage([
-            'name' => $this->storage_name,
-            'user' => 'test',
-            'pass' => 'test',
-        ]);
+        $storage = $this->getStorage();
 
         $storage->clear();
 
@@ -74,5 +59,14 @@ class StorageTest extends TestCase
         self::assertEquals(true, $storage->set($test_content));
 
         self::assertEquals($test_content, $storage->get());
+    }
+
+    public static function tearDownAfterClass()
+    {
+        $storage_path = DIR_APP . DS . static::$storage_name;
+
+        if (file_exists($storage_path)) {
+            unlink($storage_path);
+        }
     }
 }
